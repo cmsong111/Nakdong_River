@@ -21,7 +21,6 @@ Future<Temp> getTemp() async {
     Uri.http("opendata.kwater.or.kr",
         "/openapi-data/service/pubd/wroWaterSaln/list", queryParameters),
   );
-  print(queryParameters);
   teststring = response.body.toString();
 
   if (response.statusCode == 200) {
@@ -40,11 +39,11 @@ String getToday() {
 
 String beforeTime() {
   DateTime now = DateTime.now();
+  now = now.add(const Duration(minutes: -20));
+
   DateFormat formatter = DateFormat('HHmm');
   String time = formatter.format(now);
-  int temp = int.parse(time.substring(2, 3));
-
-  return "0000";
+  return "${time.substring(0, 3)}0";
 }
 
 String afterTime() {

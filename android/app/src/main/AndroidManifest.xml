@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nakdong_river">
+     <uses-permission android:name="android.permission.INTERNET" />
    <application
+        
         android:label="nakdong_river"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

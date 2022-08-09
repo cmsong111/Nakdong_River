@@ -1,5 +1,3 @@
-import 'package:nakdong_river/http.dart';
-
 class Temp {
   Response? response;
 
@@ -8,7 +6,6 @@ class Temp {
   });
 
   Temp.fromJson(Map<String, dynamic> json) {
-    print("response : " + json['response'].toString());
     response =
         json['response'] != null ? Response.fromJson(json['response']) : null;
   }
@@ -21,9 +18,6 @@ class Response {
   Response({this.header, this.body});
 
   Response.fromJson(Map<String, dynamic> json) {
-    print("\n\n");
-    print("header : " + json['header'].toString());
-    print("body : " + json['body'].toString());
     header = json['header'] != null ? Header.fromJson(json['header']) : null;
     body = json['body'] != null ? Body.fromJson(json['body']) : null;
   }
@@ -58,16 +52,9 @@ class Body {
   });
 
   Body.fromJson(Map<String, dynamic> json) {
-    print("\n\n");
-    print("numOfRows : " + json['numOfRows'].toString());
-    print("pageNo : " + json['pageNo'].toString());
-    print("totalCount : " + json['totalCount'].toString());
-    print("items : " + json['items'].toString());
-
     numOfRows = json['numOfRows'];
     pageNo = json['pageNo'];
     totalCount = json['totalCount'];
-    queryParameters = json['pageNo'].toString() as Map<String, String>;
     items = json['items'] != null ? Items.fromJson(json['items']) : null;
   }
 }
@@ -78,8 +65,6 @@ class Items {
   Items({this.item});
 
   Items.fromJson(Map<String, dynamic> json) {
-    print("\n\n");
-    print("item : " + json['item'].toString());
     item = json['item'] != null ? Item.fromJson(json['item']) : null;
   }
 }
@@ -106,21 +91,21 @@ class Item {
   });
 
   Item.fromJson(Map<String, dynamic> json) {
-    print("\n\n");
-    print("altdDpwt : " + json['altdDpwt'].toString());
-    print("ec : " + json['ec'].toString());
-    print("mesureDpwt : " + json['mesureDpwt'].toString());
-    print("saln : " + json['saln'].toString());
-    print("wtep : " + json['wtep'].toString());
-    print("wtqltObsrvtCd : " + json['wtqltObsrvtCd'].toString());
-
     altdDpwt = json['altdDpwt'];
+    // print("완료1");
     ec = json['ec'];
+    // print("완료2");
     mesureDpwt = json['mesureDpwt'];
-    msmtTm = json['msmtTm'];
+    // print("완료3");
+    msmtTm = json['msmtTm'].toString();
+    // print("완료4");
     obsrvtNm = json['obsrvtNm'];
+    // print("완료5");
     saln = json['saln'];
-    wtep = json['wtep'];
+    // print("완료6");
+    wtep = double.parse(json['wtep'].toString());
+    // print("완료7");
     wtqltObsrvtCd = json['wtqltObsrvtCd'];
+    // print("완료8");
   }
 }

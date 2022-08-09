@@ -52,26 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         child: ListView(
           children: [
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    myFuture = getTemp();
-                  });
-                },
-                icon: Icon(Icons.refresh_outlined)),
-            Text(
-              teststring,
-              style: TextStyle(color: Colors.white),
-            ),
-            Text(
-              getToday(),
-            ),
-            Text(
-              beforeTime(),
-            ),
-            Text(
-              afterTime(),
-            ),
             FutureBuilder<Temp>(
               future: myFuture,
               builder: ((context, snapshot) {
@@ -81,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Column(
                     children: [
                       const SizedBox(
-                        height: 100,
+                        height: 200,
                       ),
                       Text(
                         "${snapshot.data!.response!.body!.items!.item!.wtep}°C",
@@ -92,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         height: 1,
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.white)),
@@ -112,14 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       Text(
-                        "측정 시간:${snapshot.data!.response!.body!.items!.item!.msmtTm}",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "측정 시간:${snapshot.data!.response?.body?.items?.item?.msmtTm}",
+                        "측정 시간:${snapshot.data!.response!.body!.items!.item!.msmtTm.toString().substring(4, 6)}월 ${snapshot.data!.response!.body!.items!.item!.msmtTm.toString().substring(6, 8)}일 ${snapshot.data!.response!.body!.items!.item!.msmtTm.toString().substring(8, 10)}시 ${snapshot.data!.response!.body!.items!.item!.msmtTm.toString().substring(10, 12)}분",
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -129,7 +102,46 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 }
               }),
-            )
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  myFuture = getTemp();
+                });
+              },
+              icon: const Icon(
+                Icons.refresh_outlined,
+                color: Colors.white,
+              ),
+            ),
+            // Text(
+            //   teststring,
+            //   style: const TextStyle(color: Colors.white),
+            // ),
+            // Text(
+            //   getToday(),
+            //   style: const TextStyle(
+            //     color: Colors.white,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // Text(
+            //   beforeTime(),
+            //   style: const TextStyle(
+            //     color: Colors.white,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // Text(
+            //   afterTime(),
+            //   style: const TextStyle(
+            //     color: Colors.white,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
           ],
         ),
       ),
