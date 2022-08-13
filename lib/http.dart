@@ -3,10 +3,10 @@ import 'package:nakdong_river/main.dart';
 import 'package:nakdong_river/model.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 var queryParameters = {
-  'ServiceKey':
-      "P85FKUFu2kJIbADd5Sf2NMcuhK9sGMcciPLj3s0tm%2BtOG9SBwS0Dk6t5dkUnl0Un7EA%2F5TzGsbI%2F2fV%2BcmA4%2FQ%3D%3D",
+  'ServiceKey': dotenv.env['ServiceKey'],
   'sDate': getToday(),
   'sTime': beforeTime(),
   'eTime': afterTime(),

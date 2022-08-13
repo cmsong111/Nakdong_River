@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:nakdong_river/http.dart';
 import 'package:nakdong_river/model.dart';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 String teststring = "";
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
