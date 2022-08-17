@@ -1,16 +1,12 @@
 # nakdong_river
 
-A new Flutter project.
+낙동강 수온체크 하는 어플
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## How to Work
+* 공공 API 활용
+    * [한국수자원공사_낙동강 하구 염분](https://www.data.go.kr/iim/api/selectAPIAcountView.do)
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Example
+<img src="https://user-images.githubusercontent.com/23499675/185188480-22afaf3f-884f-4212-af35-cdb55b0b55b5.JPG"  width="45%" /> <img src="https://user-images.githubusercontent.com/23499675/185188493-fdd267a3-634c-46bc-b2de-ae835a853fa6.JPG"  width="45%" />
