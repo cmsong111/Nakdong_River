@@ -5,6 +5,8 @@ import 'package:nakdong_river/model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 String teststring = "";
+//debug
+String selectedlocaion = '2022B2a';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -109,17 +111,96 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 50,
             ),
-            IconButton(
-              onPressed: () {
+            PopupMenuButton(
+              onSelected: ((value) {
+                setState(() {
+                  selectedlocaion = value.toString();
+                  queryParameters['wtqltObsrvtCd'] = value.toString();
+                });
                 setState(() {
                   myFuture = getTemp();
                 });
-              },
-              icon: const Icon(
-                Icons.refresh_outlined,
-                color: Colors.white,
+              }),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                const PopupMenuItem(
+                  value: '2022B4a',
+                  child: Text('하구둑8번교각'),
+                ),
+                const PopupMenuItem(
+                  value: '2022B4b',
+                  child: Text('하구둑10번교각'),
+                ),
+                const PopupMenuItem(
+                  value: '2022B4c',
+                  child: Text('갑문상류'),
+                ),
+                const PopupMenuItem(
+                  value: '2022B5a',
+                  child: Text('을숙도대교P3'),
+                ),
+                const PopupMenuItem(
+                  value: '2022B5b',
+                  child: Text('을숙도대교P20'),
+                ),
+                const PopupMenuItem(
+                  value: '2022B1a',
+                  child: Text('낙동강 하구둑'),
+                ),
+                const PopupMenuItem(
+                  value: '2022B2a',
+                  child: Text('낙동대교'),
+                ),
+                const PopupMenuItem(
+                  value: '2022B3a',
+                  child: Text('우안배수문'),
+                ),
+                // Now not work API
+                // const PopupMenuItem(
+                //   value: '2022A1a',
+                //   child: Text('낙동강상류3km'),
+                // ),
+                // const PopupMenuItem(
+                //   value: '2022A1b',
+                //   child: Text('낙동강상류7.5km'),
+                // ),
+                // const PopupMenuItem(
+                //   value: '2022A2b',
+                //   child: Text('낙동강상류9km'),
+                // ),
+                // const PopupMenuItem(
+                //   value: '2022A2a',
+                //   child: Text('낙동강상류10km'),
+                // ),
+              ],
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(
+                    Icons.location_on,
+                    color: Colors.white,
+                  ),
+                  Text(
+                    "위치",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                    ),
+                  )
+                ],
               ),
             ),
+            // IconButton(
+            //   onPressed: () {
+            //     setState(() {
+            //       myFuture = getTemp();
+            //       getTemp();
+            //     });
+            //   },
+            //   icon: const Icon(
+            //     Icons.refresh_outlined,
+            //     color: Colors.white,
+            //   ),
+            // ),
             // Text(
             //   teststring,
             //   style: const TextStyle(color: Colors.white),
@@ -140,6 +221,13 @@ class _MyHomePageState extends State<MyHomePage> {
             // ),
             // Text(
             //   afterTime(),
+            //   style: const TextStyle(
+            //     color: Colors.white,
+            //     fontWeight: FontWeight.bold,
+            //   ),
+            // ),
+            // Text(
+            //   selectedlocaion,
             //   style: const TextStyle(
             //     color: Colors.white,
             //     fontWeight: FontWeight.bold,

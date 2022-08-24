@@ -10,7 +10,7 @@ var queryParameters = {
   'sDate': getToday(),
   'sTime': beforeTime(),
   'eTime': afterTime(),
-  'wtqltObsrvtCd': '2022B1a',
+  'wtqltObsrvtCd': '2022B2a',
   'numOfRows': '1',
   'pageNo': '1',
   '_type': 'json',
@@ -21,6 +21,7 @@ Future<Temp> getTemp() async {
     Uri.http("opendata.kwater.or.kr",
         "/openapi-data/service/pubd/wroWaterSaln/list", queryParameters),
   );
+
   teststring = response.body.toString();
 
   if (response.statusCode == 200) {
@@ -33,6 +34,7 @@ Future<Temp> getTemp() async {
 String getToday() {
   DateTime now = DateTime.now();
   DateFormat formatter = DateFormat('yyyyMMdd');
+  now = now.add(const Duration(minutes: -20));
   String strToday = formatter.format(now);
   return strToday;
 }
@@ -40,7 +42,6 @@ String getToday() {
 String beforeTime() {
   DateTime now = DateTime.now();
   now = now.add(const Duration(minutes: -20));
-
   DateFormat formatter = DateFormat('HHmm');
   String time = formatter.format(now);
   return "${time.substring(0, 3)}0";
