@@ -6,6 +6,8 @@ class Temp {
   });
 
   Temp.fromJson(Map<String, dynamic> json) {
+    // print('TEMP 완료');
+
     response =
         json['response'] != null ? Response.fromJson(json['response']) : null;
   }
@@ -18,6 +20,7 @@ class Response {
   Response({this.header, this.body});
 
   Response.fromJson(Map<String, dynamic> json) {
+    // print('리스톤스 완료');
     header = json['header'] != null ? Header.fromJson(json['header']) : null;
     body = json['body'] != null ? Body.fromJson(json['body']) : null;
   }
@@ -33,6 +36,8 @@ class Header {
   });
 
   Header.fromJson(Map<String, dynamic> json) {
+    // print('해더 완료');
+
     resultCode = json['resultCode'];
     resultMsg = json['resultMsg'];
   }
@@ -52,6 +57,8 @@ class Body {
   });
 
   Body.fromJson(Map<String, dynamic> json) {
+    // print('바디 완료');
+
     numOfRows = json['numOfRows'];
     pageNo = json['pageNo'];
     totalCount = json['totalCount'];
@@ -65,18 +72,20 @@ class Items {
   Items({this.item});
 
   Items.fromJson(Map<String, dynamic> json) {
+    // print('아이템 완료');
+
     item = json['item'] != null ? Item.fromJson(json['item']) : null;
   }
 }
 
 class Item {
-  double? altdDpwt;
+  String? altdDpwt;
   String? ec;
-  double? mesureDpwt;
+  String? mesureDpwt;
   String? msmtTm;
   String? obsrvtNm;
-  double? saln;
-  double? wtep;
+  String? saln;
+  String? wtep;
   String? wtqltObsrvtCd;
 
   Item({
@@ -91,21 +100,23 @@ class Item {
   });
 
   Item.fromJson(Map<String, dynamic> json) {
-    altdDpwt = json['altdDpwt'];
-    // print("완료1");
-    ec = json['ec'];
-    // print("완료2");
-    mesureDpwt = json['mesureDpwt'];
+    // print("시작");
+
+    altdDpwt = json['altdDpwt'].toString();
+    // print("완료1 ${altdDpwt}");
+    ec = json['ec'].toString();
+    // print("완료2 ${ec}");
+    mesureDpwt = json['mesureDpwt'].toString();
     // print("완료3");
     msmtTm = json['msmtTm'].toString();
     // print("완료4");
-    obsrvtNm = json['obsrvtNm'];
-    // print("완료5");
-    saln = json['saln'];
+    obsrvtNm = json['obsrvtNm'].toString();
+    // print("완료5 ${obsrvtNm}");
+    saln = json['saln'].toString();
     // print("완료6");
-    wtep = double.parse(json['wtep'].toString());
+    wtep = json['wtep'].toString();
     // print("완료7");
-    wtqltObsrvtCd = json['wtqltObsrvtCd'];
+    wtqltObsrvtCd = json['wtqltObsrvtCd'].toString();
     // print("완료8");
   }
 }
