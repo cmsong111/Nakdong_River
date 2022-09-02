@@ -1,4 +1,4 @@
-package com.example.nakdong_river
+package com.namju.nakdong_river
 
 import io.flutter.embedding.android.FlutterActivity
 

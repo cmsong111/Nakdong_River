@@ -100,7 +100,7 @@ class Item {
   });
 
   Item.fromJson(Map<String, dynamic> json) {
-    // print("시작");
+    print("시작");
 
     altdDpwt = json['altdDpwt'].toString();
     // print("완료1 ${altdDpwt}");

@@ -1,22 +1,56 @@
-# nakdong_river
+<img  style=" 
+height : 300px;
+border-radius: 7px;
+-moz-border-radius: 7px;
+-khtml-border-radius: 7px;
+-webkit-border-radius: 7px;
+" src="https://user-images.githubusercontent.com/23499675/188171201-fc124ac6-4e3b-41e4-81c7-d5f636c55df8.png" align="left"/> 
 
-낙동강 수온체크 하는 어플
+<br>
+<span style="font-size:200%">&nbsp;&nbsp;낙동 - 낭동강 수온측정 </span>
+<br>
+<span style="color:green; font-size:180%">&nbsp;&nbsp;Namju</span>
+<br>
+&nbsp;&nbsp;&nbsp; Downloaed 1+
 
 
-## How to Work
-* 공공 API 활용
-    * [한국수자원공사_낙동강 하구 염분](https://www.data.go.kr/iim/api/selectAPIAcountView.do)
+<a href='https://play.google.com/store/apps/details?id=com.namju.nakdong_river&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width="30%" alt='다운로드하기 Google Play' src='https://play.google.com/intl/ko/badges/static/images/badges/ko_badge_web_generic.png'/></a>
 
+<br>
+<br>
+<br>
+<br>
 
-## Example
-<img src="https://user-images.githubusercontent.com/23499675/185188480-22afaf3f-884f-4212-af35-cdb55b0b55b5.JPG"  width="45%" /> <img src="https://user-images.githubusercontent.com/23499675/185188493-fdd267a3-634c-46bc-b2de-ae835a853fa6.JPG"  width="45%" />
+## ScreenShot
+<img src="https://user-images.githubusercontent.com/23499675/188184496-824a7c6e-bf13-40f5-a55d-63de85456693.jpg"  width="30%" />&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/23499675/188184505-8092211e-58aa-4456-89ed-8a206114c05f.jpg"  width="30%" />&nbsp;&nbsp; <img src="https://user-images.githubusercontent.com/23499675/188184468-899f3974-6fa8-4632-a717-e62e2b62c50a.jpg"  width="30%" />
 
+## How to build APP
+
+* Way 1
+    1. <a herf="https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15081180">Download from google playstore</a>
+* Way 2
+    1. clone project
+        ```
+        gh repo clone cmsong111/Nakdong_River
+         ```
+    2. Publish API Key from data.go.kr 
+    <br><a herf="https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15081180">공공데이터 포털 - 한국수자원공사_낙동강 하구 염분</a>
+
+    3. Create .env file at Nakdong_River/ and wirte your API key
+        ```
+        ServiceKey = <input Your key>
+        ```
+    4. typing CLI
+        ```
+        flutter run -- realese
+        ```
+
+* You can Also build IOS APP
 
 # Update note
-
-## ver 1.1
-### 측정 포인트 추가
-
+   
+## ver 1.0
+### Add 8 Point
 - 하구둑8번교각<br>
 - 하구둑10번교각<br>
 - 갑문상류<br>
@@ -25,6 +59,3 @@
 - 낙동강 하구둑<br>
 - 낙동대교<br>
 - 우안배수문<br>
-                
-## ver 1.0
-낙동대교 온도만 측정 가능
