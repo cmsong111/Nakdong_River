@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.namju.nakdong_river">
+    package="com.example.nakdong_river">
      <uses-permission android:name="android.permission.INTERNET" />
    <application
         
-        android:label="낙동"
+        android:label="nakdong_river"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

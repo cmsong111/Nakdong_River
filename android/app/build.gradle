@@ -50,7 +50,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.namju.nakdong_river"
+        applicationId "com.example.nakdong_river"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
@@ -69,12 +69,7 @@ android {
    }
    buildTypes {
        release {
-            signingConfig signingConfigs.release
-           // start of 코드난독화 및 사이즈 축소
-            minifyEnabled true
-            //useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            // end of 코드난독화 및 사이즈 축소
+           signingConfig signingConfigs.release
        }
    }
 }

@@ -51,9 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-              'images/Nackdong.jpg',
-            ),
+            image: AssetImage('images/Nackdong.jpeg'),
             fit: BoxFit.fitHeight,
           ),
         ),
@@ -111,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
             ),
             const SizedBox(
-              height: 350,
+              height: 50,
             ),
             PopupMenuButton(
               onSelected: ((value) {
