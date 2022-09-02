@@ -7,11 +7,12 @@ border-radius: 7px;
 " src="https://user-images.githubusercontent.com/23499675/188171201-fc124ac6-4e3b-41e4-81c7-d5f636c55df8.png" align="left"/> 
 
 <br>
-<span style="font-size:200%">&nbsp;&nbsp;낙동 - 낭동강 수온측정 </span>
+&nbsp;&nbsp;<font size=6> 낙동 - 낭동강 수온측정 </font>
 <br>
-<span style="color:green; font-size:180%">&nbsp;&nbsp;Namju</span>
+&nbsp;&nbsp;<font size=5> Namju </font>
+
 <br>
-&nbsp;&nbsp;&nbsp; Downloaed 1+
+&nbsp;&nbsp;&nbsp; <font size=2> Downloaed 1+ </font>
 
 
 <a href='https://play.google.com/store/apps/details?id=com.namju.nakdong_river&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width="30%" alt='다운로드하기 Google Play' src='https://play.google.com/intl/ko/badges/static/images/badges/ko_badge_web_generic.png'/></a>
