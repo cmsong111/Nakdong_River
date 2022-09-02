@@ -13,11 +13,14 @@ border-radius: 7px;
 
 <br>
 &nbsp;&nbsp;&nbsp; <font size=2> Downloaed 1+ </font> -->
-<img src="https://user-images.githubusercontent.com/23499675/188191826-8bb00de7-4173-4be4-8bee-01570da46473.JPG"  width="63%" />
+<img src="https://user-images.githubusercontent.com/23499675/188191826-8bb00de7-4173-4be4-8bee-01570da46473.JPG"  width="50%" />
 
 
 <a href='https://play.google.com/store/apps/details?id=com.namju.nakdong_river&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width="30%" alt='다운로드하기 Google Play' src='https://play.google.com/intl/ko/badges/static/images/badges/ko_badge_web_generic.png'/></a>
 
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
