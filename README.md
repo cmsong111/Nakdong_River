@@ -46,6 +46,13 @@ border-radius: 7px;
 * You can Also build IOS APP
 
 # Update note
+
+## ver 1.1
+### Add Drawer
+- 어플 설명, 저작권 표시<br>
+- 문의하기 추가<br>
+- 오픈소스라이선스 명시<br>
+- 위치 변경 아이콘 Appbar action 탭으로 이동<br>
    
 ## ver 1.0
 ### Add 8 Point
