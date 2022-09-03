@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nakdong_river/http.dart';
 import 'package:nakdong_river/model.dart';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:nakdong_river/widget.dart';
 
 String teststring = "";
 //debug
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -48,10 +50,85 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("낙동"),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        actions: [
+          PopupMenuButton(
+            onSelected: ((value) {
+              setState(() {
+                selectedlocaion = value.toString();
+                queryParameters['wtqltObsrvtCd'] = value.toString();
+              });
+              setState(() {
+                myFuture = getTemp();
+              });
+            }),
+            itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+              const PopupMenuItem(
+                value: '2022B4a',
+                child: Text('하구둑8번교각'),
+              ),
+              const PopupMenuItem(
+                value: '2022B4b',
+                child: Text('하구둑10번교각'),
+              ),
+              const PopupMenuItem(
+                value: '2022B4c',
+                child: Text('갑문상류'),
+              ),
+              const PopupMenuItem(
+                value: '2022B5a',
+                child: Text('을숙도대교P3'),
+              ),
+              const PopupMenuItem(
+                value: '2022B5b',
+                child: Text('을숙도대교P20'),
+              ),
+              const PopupMenuItem(
+                value: '2022B1a',
+                child: Text('낙동강 하구둑'),
+              ),
+              const PopupMenuItem(
+                value: '2022B2a',
+                child: Text('낙동대교'),
+              ),
+              const PopupMenuItem(
+                value: '2022B3a',
+                child: Text('우안배수문'),
+              ),
+              // Now not work API
+              // const PopupMenuItem(
+              //   value: '2022A1a',
+              //   child: Text('낙동강상류3km'),
+              // ),
+              // const PopupMenuItem(
+              //   value: '2022A1b',
+              //   child: Text('낙동강상류7.5km'),
+              // ),
+              // const PopupMenuItem(
+              //   value: '2022A2b',
+              //   child: Text('낙동강상류9km'),
+              // ),
+              // const PopupMenuItem(
+              //   value: '2022A2a',
+              //   child: Text('낙동강상류10km'),
+              // ),
+            ],
+            icon: const Icon(
+              Icons.location_on,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+      drawer: const MyDrawer(),
+      extendBodyBehindAppBar: true,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/Nackdong.jpeg'),
+            image: AssetImage('images/Nackdong.jpg'),
             fit: BoxFit.fitHeight,
           ),
         ),
@@ -66,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   return Column(
                     children: [
                       const SizedBox(
-                        height: 200,
+                        height: 150,
                       ),
                       Text(
                         "${snapshot.data!.response!.body!.items!.item!.wtep}°C",
@@ -110,84 +187,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const SizedBox(
               height: 50,
-            ),
-            PopupMenuButton(
-              onSelected: ((value) {
-                setState(() {
-                  selectedlocaion = value.toString();
-                  queryParameters['wtqltObsrvtCd'] = value.toString();
-                });
-                setState(() {
-                  myFuture = getTemp();
-                });
-              }),
-              itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                const PopupMenuItem(
-                  value: '2022B4a',
-                  child: Text('하구둑8번교각'),
-                ),
-                const PopupMenuItem(
-                  value: '2022B4b',
-                  child: Text('하구둑10번교각'),
-                ),
-                const PopupMenuItem(
-                  value: '2022B4c',
-                  child: Text('갑문상류'),
-                ),
-                const PopupMenuItem(
-                  value: '2022B5a',
-                  child: Text('을숙도대교P3'),
-                ),
-                const PopupMenuItem(
-                  value: '2022B5b',
-                  child: Text('을숙도대교P20'),
-                ),
-                const PopupMenuItem(
-                  value: '2022B1a',
-                  child: Text('낙동강 하구둑'),
-                ),
-                const PopupMenuItem(
-                  value: '2022B2a',
-                  child: Text('낙동대교'),
-                ),
-                const PopupMenuItem(
-                  value: '2022B3a',
-                  child: Text('우안배수문'),
-                ),
-                // Now not work API
-                // const PopupMenuItem(
-                //   value: '2022A1a',
-                //   child: Text('낙동강상류3km'),
-                // ),
-                // const PopupMenuItem(
-                //   value: '2022A1b',
-                //   child: Text('낙동강상류7.5km'),
-                // ),
-                // const PopupMenuItem(
-                //   value: '2022A2b',
-                //   child: Text('낙동강상류9km'),
-                // ),
-                // const PopupMenuItem(
-                //   value: '2022A2a',
-                //   child: Text('낙동강상류10km'),
-                // ),
-              ],
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Icon(
-                    Icons.location_on,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    "위치",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                  )
-                ],
-              ),
             ),
             // IconButton(
             //   onPressed: () {

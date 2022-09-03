@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nakdong_river">
+    package="com.namju.nakdong_river">
      <uses-permission android:name="android.permission.INTERNET" />
    <application
         
-        android:label="nakdong_river"
+        android:label="낙동"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -33,4 +33,10 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+  </queries>
 </manifest>
