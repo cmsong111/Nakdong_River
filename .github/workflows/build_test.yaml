@@ -1,0 +1,67 @@
+name: Build Test
+
+on:
+  push:
+    branches:
+      - '*'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+        flutter-version: 3.19.6
+        cache: true
+      
+    - run: flutter --version
+
+    - name: Create Firebase Json
+      uses: jsdaniell/create-json@v1.2.3
+      with:
+        name: "firebase.json"
+        json: ${{ secrets.FIREBASE_PROJECT_ID }}
+    
+    - name: Create Jey JKS
+      uses: timheuer/base64-to-file@v1.2
+      with:
+        fileName: 'key.jks'
+        fileDir: './android/app/'
+        encodedString: ${{ secrets.KEY_JKS }}
+    
+    - name: Create key properties
+      uses: timheuer/base64-to-file@v1.2
+      with:
+        fileName: 'key.properties'
+        fileDir: './android/'
+        encodedString: ${{ secrets.KEY_PROPERTIES }}
+    
+    - name: Create Filebase_options.dart
+      uses: timheuer/base64-to-file@v1.2
+      with:
+        fileName: 'firebase_options.dart'
+        fileDir: './lib/'
+        encodedString: ${{ secrets.FIREBASE_OPTIONS }}
+    
+    
+    - name: Create Google Service Json
+      uses: jsdaniell/create-json@v1.2.3
+      with:
+        dir: android/app/
+        name: "google-services.json"
+        json: ${{ secrets.GOOGLE_SERVICE }}
+
+    - name: Install dependencies
+      run: flutter pub get
+
+    - name: Test
+      run: flutter test
+
+    - name: Build APK
+      run: flutter build apk --debug
