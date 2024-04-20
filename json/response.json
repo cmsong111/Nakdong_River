@@ -1,0 +1,87 @@
+{
+    "response": {
+        "header": {
+            "resultCode": "00",
+            "resultMsg": "NORMAL SERVICE."
+        },
+        "body": {
+            "items": {
+                "item": [
+                    {
+                        "altdDpwt": 6.86,
+                        "ec": "1,884.64",
+                        "mesureDpwt": 6.86,
+                        "msmtTm": 202404202300,
+                        "obsrvtNm": "낙동강하구둑",
+                        "saln": 0.96,
+                        "wtep": 17.36,
+                        "wtqltObsrvtCd": "2022B1a"
+                    },
+                    {
+                        "altdDpwt": 6.86,
+                        "ec": "1,102.47",
+                        "mesureDpwt": 6.86,
+                        "msmtTm": 202404202310,
+                        "obsrvtNm": "낙동강하구둑",
+                        "saln": 0.55,
+                        "wtep": 17.38,
+                        "wtqltObsrvtCd": "2022B1a"
+                    },
+                    {
+                        "altdDpwt": 6.86,
+                        "ec": 417.37,
+                        "mesureDpwt": 6.86,
+                        "msmtTm": 202404202320,
+                        "obsrvtNm": "낙동강하구둑",
+                        "saln": "0.20",
+                        "wtep": 17.37,
+                        "wtqltObsrvtCd": "2022B1a"
+                    },
+                    {
+                        "altdDpwt": 6.85,
+                        "ec": 288.12,
+                        "mesureDpwt": 6.85,
+                        "msmtTm": 202404202330,
+                        "obsrvtNm": "낙동강하구둑",
+                        "saln": 0.14,
+                        "wtep": 17.39,
+                        "wtqltObsrvtCd": "2022B1a"
+                    },
+                    {
+                        "altdDpwt": 6.86,
+                        "ec": 227.01,
+                        "mesureDpwt": 6.86,
+                        "msmtTm": 202404202340,
+                        "obsrvtNm": "낙동강하구둑",
+                        "saln": 0.11,
+                        "wtep": 17.38,
+                        "wtqltObsrvtCd": "2022B1a"
+                    },
+                    {
+                        "altdDpwt": 6.87,
+                        "ec": 215.01,
+                        "mesureDpwt": 6.87,
+                        "msmtTm": 202404202350,
+                        "obsrvtNm": "낙동강하구둑",
+                        "saln": "0.10",
+                        "wtep": 17.37,
+                        "wtqltObsrvtCd": "2022B1a"
+                    },
+                    {
+                        "altdDpwt": 6.86,
+                        "ec": 205.42,
+                        "mesureDpwt": 6.86,
+                        "msmtTm": 202404202400,
+                        "obsrvtNm": "낙동강하구둑",
+                        "saln": "0.10",
+                        "wtep": 17.37,
+                        "wtqltObsrvtCd": "2022B1a"
+                    }
+                ]
+            },
+            "numOfRows": 100,
+            "pageNo": 1,
+            "totalCount": 7
+        }
+    }
+}

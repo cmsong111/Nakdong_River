@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:nakdong_river/oss_screen.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nakdong_river/presentation/views/oss_licenses_page.dart';
 
 class MyDrawer extends StatelessWidget {
-  const MyDrawer({Key? key}) : super(key: key);
+  const MyDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,9 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             title: const Text('Open source license'),
             onTap: () {
-              Get.to(const MyOss());
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const OssLicensesPage();
+              }));
             },
           ),
         ],
