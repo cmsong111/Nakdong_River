@@ -27,7 +27,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("낙동"),
+        title: const Text("낙동", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         actions: [
@@ -47,6 +47,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ],
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu, color: Colors.white),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          ),
+        ),
       ),
       drawer: const MyDrawer(),
       extendBodyBehindAppBar: true,

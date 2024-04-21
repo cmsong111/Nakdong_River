@@ -13,10 +13,8 @@ class MyDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.blue,
-            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -31,12 +29,8 @@ class MyDrawer extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 45,
-                ),
                 const Text(
-                  "Copyright 2022. Namju all rights reserved.",
-                  style: TextStyle(fontSize: 15),
+                  "Copyright ⓒ 2024 낙동",
                 ),
               ],
             ),
