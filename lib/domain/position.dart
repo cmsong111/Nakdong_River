@@ -17,4 +17,8 @@ enum Position {
   final String code;
 
   const Position({required this.name, required this.code});
+
+  static Position fromCode(String code) {
+    return Position.values.firstWhere((e) => e.code == code);
+  }
 }

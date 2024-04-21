@@ -66,7 +66,7 @@ wtqltObsrvtCd = {
     '낙동강상류10km': "2022A2a"
 }
 # 한 페이지 결과 수 ()
-numOfRows = 300
+numOfRows = 100
 
 # 페이지 번호
 pageNo = 1

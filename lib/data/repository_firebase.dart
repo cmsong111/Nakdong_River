@@ -49,4 +49,33 @@ class RepositoryFirebaseImpl extends Repository {
     }
     return dateList;
   }
+
+  @override
+  Future<Measurement> getRecentDataOne(Position position, String depth) async {
+    final today = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(today);
+
+    var response = await instance
+        .collection(position.code)
+        .doc(depth)
+        .collection(formattedDate)
+        .orderBy('msmtTm', descending: true)
+        .limit(1)
+        .get();
+
+    if (response.docs.isEmpty) {
+      formattedDate = DateFormat('yyyy-MM-dd')
+          .format(today.subtract(const Duration(days: 1)));
+      response = await instance
+          .collection(position.code)
+          .doc(depth)
+          .collection(formattedDate)
+          .orderBy('msmtTm', descending: true)
+          .limit(1)
+          .get();
+    }
+
+    return Measurement.fromFireStore(
+        response.docs.first.data(), position, depth);
+  }
 }

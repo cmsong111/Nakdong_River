@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:nakdong_river/domain/position.dart';
+import 'package:nakdong_river/presentation/providers/position_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:nakdong_river/firebase_options.dart';
 
 import 'presentation/views/my_home_page.dart';
@@ -9,7 +12,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (_) => PositionProvider(Position.point5)),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

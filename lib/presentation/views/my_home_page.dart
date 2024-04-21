@@ -1,27 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:nakdong_river/domain/position.dart';
 
-import 'package:nakdong_river/model.dart';
+import 'package:nakdong_river/presentation/providers/position_provider.dart';
 
 import 'package:nakdong_river/presentation/widgets/drawer.dart';
+import 'package:provider/provider.dart';
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  Future<Temp> getTemp(BuildContext context) async {
-    String data =
-        await DefaultAssetBundle.of(context).loadString('json/response.json');
-    var jsonResult = jsonDecode(data);
-    Temp temp = Temp.fromJson(jsonResult);
-    return temp;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +18,11 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 0.0,
         actions: [
           PopupMenuButton(
-            onSelected: ((value) {}),
+            onSelected: ((value) {
+              context
+                  .read<PositionProvider>()
+                  .setPosition(Position.fromCode(value));
+            }),
             itemBuilder: (BuildContext context) {
               return Position.values
                   .map((e) => PopupMenuItem(
@@ -67,59 +57,59 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         child: ListView(
           children: [
-            FutureBuilder<Temp>(
-              future: getTemp(context),
-              builder: ((context, snapshot) {
-                if (snapshot.hasData == false) {
-                  return const CircularProgressIndicator();
-                } else {
-                  return Column(
-                    children: [
-                      const SizedBox(
-                        height: 150,
-                      ),
-                      Text(
-                        "${snapshot.data!.response!.body!.items!.item!.wtep}°C",
-                        style: const TextStyle(
-                          fontSize: 50,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(10),
-                        height: 1,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white)),
-                      ),
-                      Text(
-                        "염분도:${snapshot.data!.response!.body!.items!.item!.saln}psu",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "측정 위치:${snapshot.data!.response!.body!.items!.item!.obsrvtNm}",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "측정 시간:${snapshot.data!.response!.body!.items!.item!.msmtTm.toString().substring(4, 6)}월 ${snapshot.data!.response!.body!.items!.item!.msmtTm.toString().substring(6, 8)}일 ${snapshot.data!.response!.body!.items!.item!.msmtTm.toString().substring(8, 10)}시 ${snapshot.data!.response!.body!.items!.item!.msmtTm.toString().substring(10, 12)}분",
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              }),
+            Slider(
+              value: context
+                  .watch<PositionProvider>()
+                  .currentSliderValue
+                  .toDouble(),
+              max: context.watch<PositionProvider>().depthsLength - 1,
+              divisions: context.watch<PositionProvider>().depthsLength,
+              label: context.watch<PositionProvider>().currnetDepthLabel,
+              onChanged: (double value) {
+                context.read<PositionProvider>().setCurrentSliderValue(value);
+              },
             ),
-            const SizedBox(
-              height: 50,
+            Column(
+              children: [
+                const SizedBox(
+                  height: 150,
+                ),
+                Text(
+                  "${context.watch<PositionProvider>().measurements.temperature}°C",
+                  style: const TextStyle(
+                    fontSize: 50,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  height: 1,
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.white)),
+                ),
+                Text(
+                  "염분도:${context.watch<PositionProvider>().measurements.salinity}psu",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "측정 위치:${context.watch<PositionProvider>().measurements.position.name}",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  "측정 시간:${context.watch<PositionProvider>().measurements.time.toDate()}",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ],
         ),
