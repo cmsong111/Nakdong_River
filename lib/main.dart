@@ -1,8 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:nakdong_river/data/repository_firebase.dart';
-import 'package:nakdong_river/domain/position.dart';
-import 'package:nakdong_river/domain/repository.dart';
 import 'package:nakdong_river/firebase_options.dart';
 
 import 'presentation/views/my_home_page.dart';

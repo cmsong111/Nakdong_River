@@ -28,4 +28,9 @@ class Measurement {
       temperature: json['wtep'],
     );
   }
+
+  @override
+  String toString() {
+    return 'Measurement{position: ${position.name}, depth: $depth, time: ${time.toDate().toString()}, salinity: $salinity, temperature: $temperature}';
+  }
 }

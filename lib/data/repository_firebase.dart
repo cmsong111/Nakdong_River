@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:nakdong_river/domain/measurement.dart';
 import 'package:nakdong_river/domain/position.dart';
 import 'package:nakdong_river/domain/repository.dart';
@@ -13,22 +14,39 @@ class RepositoryFirebaseImpl extends Repository {
   }
 
   @override
-  Future<List<Measurement>> getMeasurements(
+  Future<List<Measurement>> getRecentData(
       Position position, String depth) async {
-    final snapshot = await instance
+    final today = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(today);
+    List<Measurement> dateList = [];
+
+    var response = await instance
         .collection(position.code)
         .doc(depth)
-        .collection('data')
+        .collection(formattedDate)
+        .orderBy('msmtTm', descending: true)
+        .limit(10)
         .get();
 
-    List<Measurement> measurements = [];
-
-    for (final doc in snapshot.docs) {
-      measurements.add(Measurement.fromFireStore(
-          doc.data() as Map<String, dynamic>, position, depth));
-      print(doc.data());
+    for (final doc in response.docs) {
+      dateList.add(Measurement.fromFireStore(doc.data(), position, depth));
     }
 
-    return measurements;
+    if (response.docs.length < 10) {
+      formattedDate = DateFormat('yyyy-MM-dd')
+          .format(today.subtract(const Duration(days: 1)));
+      response = await instance
+          .collection(position.code)
+          .doc(depth)
+          .collection(formattedDate)
+          .orderBy('msmtTm', descending: true)
+          .limit(10 - response.docs.length)
+          .get();
+
+      for (final doc in response.docs) {
+        dateList.add(Measurement.fromFireStore(doc.data(), position, depth));
+      }
+    }
+    return dateList;
   }
 }
