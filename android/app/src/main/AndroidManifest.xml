@@ -17,6 +17,12 @@
         android:label="낙동"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!--AdMob-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-9883771255224638~9668752591"/>
+            
         <activity
             android:name=".MainActivity"
             android:exported="true"

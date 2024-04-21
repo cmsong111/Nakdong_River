@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:nakdong_river/domain/position.dart';
 import 'package:nakdong_river/presentation/providers/position_provider.dart';
+import 'package:nakdong_river/presentation/providers/admob_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:nakdong_river/firebase_options.dart';
 
@@ -12,11 +14,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await MobileAds.instance.initialize();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
             create: (_) => PositionProvider(Position.point5)),
+        ChangeNotifierProvider(create: (_) => AdMobProvider()),
       ],
       child: const MyApp(),
     ),
