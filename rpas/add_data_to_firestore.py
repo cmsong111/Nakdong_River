@@ -99,18 +99,38 @@ for key in wtqltObsrvtCd:
         continue
 
     for item in data['response']['body']['items']['item']:
+        # 필요한 데이터만 추출
         kst = pytz.timezone('Asia/Seoul')
+        msmtTm = datetime.datetime.strptime(str(item['msmtTm']), '%Y%m%d%H%M')
+        doc_id_depth = str(item['altdDpwt'])
+        mesure_date = msmtTm.strftime('%Y-%m-%d')
+        mesure_time = msmtTm.strftime('%H:%M')
         item['msmtTm'] = datetime.datetime.strptime(
-            str(item['msmtTm']), "%Y%m%d%H%M")
-        item['msmtTm'] = kst.localize(item['msmtTm'])
+            str(item['msmtTm']), '%Y%m%d%H%M')
+        item['msmtTm'] = kst.localize(msmtTm)
 
-        # remove unnecessary keys
-        depth = str(item['altdDpwt'])
+        # 필요없는 데이터 삭제
+        del item['mesureDpwt']
         del item['altdDpwt']
         del item['ec']
         del item['wtqltObsrvtCd']
+        del item['obsrvtNm']
 
-        db.collection(wtqltObsrvtCd[key]).document(depth).collection('data').document(
-            str(item['msmtTm'])).set(item)
+        # 수치 데이터 형변환(숫자 -> 문자 (,제거) -> 숫자)
+        if type(item['saln']) == str:
+            item['saln'] = item['saln'].replace(',', '')
+        item['saln'] = float(item['saln'])
+
+        if type(item['wtep']) == str:
+            item['wtep'] = item['wtep'].replace(',', '')
+        item['wtep'] = float(item['wtep'])
+
+        # 파이어베이스 Empty Collection 생성(검사가 안되는 문제 해결)
+        if db.collection(wtqltObsrvtCd[key]).document(doc_id_depth).get().exists is False:
+            db.collection(wtqltObsrvtCd[key]).document(doc_id_depth).set({})
+
+        # 파이어베이스 데이터 업로드
+        db.collection(wtqltObsrvtCd[key]).document(
+            doc_id_depth).collection(mesure_date).document(mesure_time).set(item)
 
     time.sleep(30)
