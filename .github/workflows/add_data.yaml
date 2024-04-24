@@ -2,8 +2,8 @@ name: Add Data to Firestore
 
 on:
   schedule:
-    # 매 정각 마다 실행
-    - cron: '0 * * * *'
+    # 15분 간격으로 실행
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 
@@ -18,11 +18,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: 3.12
+          cache: 'pip'
       
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r ./rpas/requirements.txt
+        run: pip install -r ./rpas/requirements.txt
 
       - name: create-json
         id: create-json

@@ -9,46 +9,34 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-# Upload Data to Firebase
+# Firebase FireStore 초기화
 cred = credentials.Certificate("serviceAccount.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 
-# API: 한국수자원공사_낙동강 하구 염분
+# 환경변수 설정
 END_POINT = os.environ['END_POINT']
 SERVICE_KEY = os.environ['SERVICE_KEY']
 
-# 현재 시간
+# 현재 시간 (End-time)
 now = datetime.datetime.now(tz=pytz.timezone('Asia/Seoul'))
 
-# 현재 시간을 기준으로 계측일자를 설정
-# 게측 일자는 현재 기준 -1시간으로 설정 (현재 시간이 00시 이전이면 전날로 설정) (분은 00시로 설정)
-if now.hour == 0:
-    now = now.replace(hour=23, minute=0, second=0, microsecond=0)
-    now = now - datetime.timedelta(days=1)
-else:
-    now = now.replace(hour=now.hour-1, minute=0, second=0, microsecond=0)
+# 시작 시간(Start-time, 현재시간 - 15분)
+start = now - datetime.timedelta(minutes=15)
 
-print("현재 시간: ", now)
+# 계측일자 YYYYMMDD (ex: 20240101)
+sDate = start.strftime("%Y%m%d")
 
+# 계측시간 HHMM (ex: 0000)
+sTime = start.strftime("%H%M")
 
-# 계측 시간은 1시간 이후로
-until = now + datetime.timedelta(hours=1)
-print("계측 종료 시간: ", until)
+# 계측 종료 일자 HHMM (ex: 1000, max:2400)
+eTime = now.strftime("%H%M")
 
-
-# 계측일자 YYYYMMDD
-sDate = now.strftime("%Y%m%d")
-
-# 계측시간 HHMM
-sTime = now.strftime("%H%M")
-
-# 계측 종료 일자 HHMM
-eTime = until.strftime("%H%M")
-
-if sTime == "2300":
-    eTime = "2359"
+# 일자가 다른 경우 API 호출이 불가능하므로 now를 2400으로 변경
+if now.date() != start.date():
+    eTime = "2400"
 
 # 염분 수질관측소 코드
 wtqltObsrvtCd = {
@@ -65,6 +53,7 @@ wtqltObsrvtCd = {
     '낙동강상류9km': "2022A2b",
     '낙동강상류10km': "2022A2a"
 }
+
 # 한 페이지 결과 수 ()
 numOfRows = 100
 
@@ -75,33 +64,13 @@ pageNo = 1
 _type = "json"
 
 
-for key in wtqltObsrvtCd:
-    print(key, wtqltObsrvtCd[key])
-
-    parameters = {
-        'serviceKey': SERVICE_KEY,
-        'sDate': sDate,
-        'sTime': sTime,
-        'eTime': eTime,
-        'wtqltObsrvtCd': wtqltObsrvtCd[key],
-        'numOfRows': numOfRows,
-        'pageNo': pageNo,
-        '_type': _type
-    }
-
-    print("parameters: ", parameters)
-
-    data = requests.get(url=END_POINT, params=parameters).json()
-
-    # 데이터가 없을 경우
-    if data['response']['body']['totalCount'] == 0:
-        print("No Data")
-        continue
-
-    for item in data['response']['body']['items']['item']:
+def upload_data(item: dict):
+    """데이터를 파이어베이스에 업로드하는 함수"""
+    try:
         # 필요한 데이터만 추출
         kst = pytz.timezone('Asia/Seoul')
-        msmtTm = datetime.datetime.strptime(str(item['msmtTm']), '%Y%m%d%H%M')
+        msmtTm = datetime.datetime.strptime(
+            str(item['msmtTm']), '%Y%m%d%H%M')
         doc_id_depth = str(item['altdDpwt'])
         mesure_date = msmtTm.strftime('%Y-%m-%d')
         mesure_time = msmtTm.strftime('%H:%M')
@@ -127,10 +96,48 @@ for key in wtqltObsrvtCd:
 
         # 파이어베이스 Empty Collection 생성(검사가 안되는 문제 해결)
         if db.collection(wtqltObsrvtCd[key]).document(doc_id_depth).get().exists is False:
-            db.collection(wtqltObsrvtCd[key]).document(doc_id_depth).set({})
+            db.collection(wtqltObsrvtCd[key]).document(
+                doc_id_depth).set({})
 
         # 파이어베이스 데이터 업로드
         db.collection(wtqltObsrvtCd[key]).document(
             doc_id_depth).collection(mesure_date).document(mesure_time).set(item)
 
-    time.sleep(30)
+    except Exception as e:
+        print("Error: ", e)
+
+
+for key in wtqltObsrvtCd:
+    print(key, wtqltObsrvtCd[key])
+
+    parameters = {
+        'serviceKey': SERVICE_KEY,
+        'sDate': sDate,
+        'sTime': sTime,
+        'eTime': eTime,
+        'wtqltObsrvtCd': wtqltObsrvtCd[key],
+        'numOfRows': numOfRows,
+        'pageNo': pageNo,
+        '_type': _type
+    }
+
+    print("parameters: ", parameters)
+
+    response = requests.get(url=END_POINT, params=parameters).json()
+
+    print("Response:", response['response']['header'])
+    print("data Length: ", response['response']['body']['totalCount'])
+
+    if response['response']['body']['totalCount'] == 0:
+        print("No data")
+    elif response['response']['body']['totalCount'] == 1:
+        print("One data")
+        upload_data(response['response']['body']['items']['item'])
+    else:
+        print("Many data")
+        for data in response['response']['body']['items']['item']:
+            upload_data(data)
+
+    print("Data Upload Success at", wtqltObsrvtCd[key], "\n\n")
+
+    time.sleep(25)
