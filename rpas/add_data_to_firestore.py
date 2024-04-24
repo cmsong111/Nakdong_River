@@ -107,6 +107,7 @@ def upload_data(item: dict):
         print("Error: ", e)
 
 
+# 염분 수질관측소 코드별로 반복문 실행
 for key in wtqltObsrvtCd:
     print(key, wtqltObsrvtCd[key])
 

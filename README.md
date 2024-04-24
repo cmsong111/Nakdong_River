@@ -1,53 +1,26 @@
+# 낙동 - 낙동강 수온 체크
+
 [![Add Data to Firestore](https://github.com/cmsong111/Nakdong_River/actions/workflows/add_data.yaml/badge.svg?event=schedule)](https://github.com/cmsong111/Nakdong_River/actions/workflows/add_data.yaml)
 [![Add Data to Firestore](https://github.com/cmsong111/Nakdong_River/actions/workflows/build_test.yaml/badge.svg)](https://github.com/cmsong111/Nakdong_River/actions/workflows/build_test.yaml)
 
-<img  style=" 
-height : 300px;
-border-radius: 7px;
--moz-border-radius: 7px;
--khtml-border-radius: 7px;
--webkit-border-radius: 7px;
-" src="https://user-images.githubusercontent.com/23499675/188171201-fc124ac6-4e3b-41e4-81c7-d5f636c55df8.png" align="left"/>
+| <img src="./images/AppIcon.png" > | <img src="./images/play_store_capture.png" > |
+| :-------------------------------: | :------------------------------------------: |
 
-<img src="https://user-images.githubusercontent.com/23499675/188191826-8bb00de7-4173-4be4-8bee-01570da46473.JPG"  width="50%" />
-
-<a href='https://play.google.com/store/apps/details?id=com.namju.nakdong_river&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img width="30%" alt='다운로드하기 Google Play' src='https://play.google.com/intl/ko/badges/static/images/badges/ko_badge_web_generic.png'/></a>
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+<a href="https://play.google.com/store/apps/details?id=com.namju.nakdong_river"><img width="30%" alt='다운로드하기 Google Play' src='https://play.google.com/intl/ko/badges/static/images/badges/ko_badge_web_generic.png'/></a>
 
 ## ScreenShot
 
-<img src="https://user-images.githubusercontent.com/23499675/188184496-824a7c6e-bf13-40f5-a55d-63de85456693.jpg"  width="30%" />&nbsp;&nbsp;<img src="https://user-images.githubusercontent.com/23499675/188184505-8092211e-58aa-4456-89ed-8a206114c05f.jpg"  width="30%" />&nbsp;&nbsp; <img src="https://user-images.githubusercontent.com/23499675/188184468-899f3974-6fa8-4632-a717-e62e2b62c50a.jpg"  width="30%" />
+|            메인 화면             |             수심 변경             |                위치 변경                 |
+| :------------------------------: | :-------------------------------: | :--------------------------------------: |
+| ![](/images/ScreenShot_main.jpg) | ![](/images/ScreenShot_depth.jpg) | ![](/images/ScreenShot_change_point.jpg) |
 
-## How to build APP
+## App Build with
 
-- Way 1
-  1. <a herf="https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15081180">Download from google playstore</a>
-- Way 2
-
-  1. clone project
-     ```
-     gh repo clone cmsong111/Nakdong_River
-     ```
-  2. Publish API Key from data.go.kr
-     <br><a herf="https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15081180">공공데이터 포털 - 한국수자원공사\_낙동강 하구 염분</a>
-
-  3. Create .env file at Nakdong_River/ and wirte your API key
-     ```
-     ServiceKey = <input Your key>
-     ```
-  4. typing CLI
-     ```
-     flutter run -- realese
-     ```
-
-- You can Also build IOS APP
+| Framework                                                                                                                |          How to use           |
+| :----------------------------------------------------------------------------------------------------------------------- | :---------------------------: |
+| <img height="50" src="https://storage.googleapis.com/cms-storage-bucket/847ae81f5430402216fd.svg"  style padding="30px"> |       어플리케이션 개발       |
+| <img height="70" src="https://firebase.google.com/static/images/brand-guidelines/logo-standard.png?hl=ko">               |       수온 데이터 저장        |
+| <img height="70" src="https://icon.icepanel.io/Technology/svg/GitHub-Actions.svg"> GitHub Action                         | 공공데이터로 부터 데이터 수집 |
 
 # Update note
 
