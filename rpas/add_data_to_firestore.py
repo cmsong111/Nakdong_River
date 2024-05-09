@@ -4,6 +4,7 @@ import datetime
 import pytz
 import os
 import time
+import json
 
 import firebase_admin
 from firebase_admin import credentials
@@ -109,6 +110,7 @@ def upload_data(item: dict):
 
 # 염분 수질관측소 코드별로 반복문 실행
 for key in wtqltObsrvtCd:
+
     print(key, wtqltObsrvtCd[key])
 
     parameters = {
@@ -124,7 +126,22 @@ for key in wtqltObsrvtCd:
 
     print("parameters: ", parameters)
 
-    response = requests.get(url=END_POINT, params=parameters).json()
+    response = requests.get(url=END_POINT, params=parameters)
+    print("First Response Code: ", response.status_code)
+
+    count = 1
+    while response.status_code != 200:
+        print("Retry Count: ", count)
+        response = requests.get(url=END_POINT, params=parameters)
+        print("Response Code: ", response.status_code)
+        count += 1
+        time.sleep(1)
+
+        if count > 100:
+            print("API Error")
+            continue
+
+    response = json.loads(response.text)
 
     print("Response:", response['response']['header'])
     print("data Length: ", response['response']['body']['totalCount'])
@@ -140,5 +157,3 @@ for key in wtqltObsrvtCd:
             upload_data(data)
 
     print("Data Upload Success at", wtqltObsrvtCd[key], "\n\n")
-
-    time.sleep(25)
