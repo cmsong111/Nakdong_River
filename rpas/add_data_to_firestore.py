@@ -126,34 +126,39 @@ for key in wtqltObsrvtCd:
 
     print("parameters: ", parameters)
 
-    response = requests.get(url=END_POINT, params=parameters)
-    print("First Response Code: ", response.status_code)
-
     count = 1
-    while response.status_code != 200:
-        print("Retry Count: ", count)
-        response = requests.get(url=END_POINT, params=parameters)
-        print("Response Code: ", response.status_code)
+    while True:
+        try:
+            response = requests.get(url=END_POINT, params=parameters)
+            print("First Response Code: ", response.status_code)
+            break
+
+        except Exception as e:
+            print("Error: ", e)
+
+        if response.status_code == 200:
+            response = json.loads(response.text)
+
+            print("Response:", response['response']['header'])
+            print("data Length: ", response['response']['body']['totalCount'])
+
+            if response['response']['body']['totalCount'] == 0:
+                print("No data")
+            elif response['response']['body']['totalCount'] == 1:
+                print("One data")
+                upload_data(response['response']['body']['items']['item'])
+            else:
+                print("Many data")
+                for data in response['response']['body']['items']['item']:
+                    upload_data(data)
+
+            print("Data Upload Success at", wtqltObsrvtCd[key], "\n\n")
+            break
+
+        print("Error occurred. Retry Count: ", count)
         count += 1
         time.sleep(1)
 
         if count > 100:
-            print("API Error")
-            continue
-
-    response = json.loads(response.text)
-
-    print("Response:", response['response']['header'])
-    print("data Length: ", response['response']['body']['totalCount'])
-
-    if response['response']['body']['totalCount'] == 0:
-        print("No data")
-    elif response['response']['body']['totalCount'] == 1:
-        print("One data")
-        upload_data(response['response']['body']['items']['item'])
-    else:
-        print("Many data")
-        for data in response['response']['body']['items']['item']:
-            upload_data(data)
-
-    print("Data Upload Success at", wtqltObsrvtCd[key], "\n\n")
+            print("Retry Count Over 100")
+            break
