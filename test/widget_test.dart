@@ -7,8 +7,6 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:nakdong_river/main.dart';
-
 void main() {
   test("간단 테스트", () => {expect(1 + 1, 2)});
 }

@@ -131,10 +131,10 @@ for key in wtqltObsrvtCd:
         try:
             response = requests.get(url=END_POINT, params=parameters)
             print("First Response Code: ", response.status_code)
-            break
 
         except Exception as e:
             print("Error: ", e)
+            break
 
         if response.status_code == 200:
             response = json.loads(response.text)

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:nakdong_river/domain/position.dart';
-
-import 'package:nakdong_river/presentation/providers/position_provider.dart';
 import 'package:nakdong_river/presentation/providers/admob_provider.dart';
-
+import 'package:nakdong_river/presentation/providers/position_provider.dart';
 import 'package:nakdong_river/presentation/widgets/drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -53,7 +51,7 @@ class MyHomePage extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/Nackdong.jpg'),
+            image: AssetImage('images/background.jpg'),
             fit: BoxFit.fitHeight,
           ),
         ),

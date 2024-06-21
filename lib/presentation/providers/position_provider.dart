@@ -15,6 +15,7 @@ class PositionProvider with ChangeNotifier {
 
   // 좌표
   Position _position = Position.point1;
+
   Position get position => _position;
 
   void setPosition(Position position) {
@@ -25,7 +26,9 @@ class PositionProvider with ChangeNotifier {
 
   // 측정 깊이
   List<String> _depths = ["0"];
+
   List<String> get depths => _depths;
+
   int get depthsLength => _depths.length;
 
   void updateDepths() async {
@@ -38,7 +41,9 @@ class PositionProvider with ChangeNotifier {
 
   // 슬라이더 값
   int _currentSliderValue = 0;
+
   int get currentSliderValue => _currentSliderValue;
+
   String get currnetDepthLabel => "수심 ${_depths[_currentSliderValue.toInt()]}m";
 
   void setCurrentSliderValue(double value) {
@@ -55,6 +60,7 @@ class PositionProvider with ChangeNotifier {
     salinity: 0,
     temperature: 0,
   );
+
   Measurement get measurements => _measurements;
 
   void updateMeasureData(String depth) async {

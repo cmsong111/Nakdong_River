@@ -4,6 +4,7 @@ import 'package:nakdong_river/ad_helper.dart';
 
 class AdMobProvider extends ChangeNotifier {
   BannerAd? _bannerAd;
+
   BannerAd? get bannerAd => _bannerAd;
 
   AdMobProvider() {
