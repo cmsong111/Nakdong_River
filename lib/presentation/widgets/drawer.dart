@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:nakdong_river/presentation/providers/package_info_provider.dart';
 import 'package:nakdong_river/presentation/views/oss_licenses_page.dart';
+import 'package:provider/provider.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -13,27 +15,52 @@ class MyDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
+            decoration: BoxDecoration(
+              // primary Color
+              color: Theme.of(context).primaryColor,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset("images/AppIcon.png", width: 50),
-                    const SizedBox(
-                      width: 10,
-                    ),
                     const Text(
-                      '낙동 - 낙동강 수온체크',
-                      style: TextStyle(fontSize: 20),
+                      ' 낙동강 수온체크',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
                     ),
                   ],
                 ),
+                const SizedBox(height: 10),
                 const Text(
-                  "Copyright ⓒ 2024 낙동",
+                  "Copyright ⓒ 2023 2024 낙동",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Version ${Provider.of<PackageInfoProvider>(context).packageInfo?.version}",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
               ],
             ),
+          ),
+          ListTile(
+            title: const Text('공지사항'),
+            onTap: () {
+              _sendEmail();
+            },
           ),
           ListTile(
             title: const Text('문의하기'),

@@ -4,6 +4,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:nakdong_river/domain/position.dart';
 import 'package:nakdong_river/firebase_options.dart';
 import 'package:nakdong_river/presentation/providers/admob_provider.dart';
+import 'package:nakdong_river/presentation/providers/package_info_provider.dart';
 import 'package:nakdong_river/presentation/providers/position_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +22,7 @@ void main() async {
         ChangeNotifierProvider(
             create: (_) => PositionProvider(Position.point5)),
         ChangeNotifierProvider(create: (_) => AdMobProvider()),
+        ChangeNotifierProvider(create: (_) => PackageInfoProvider()),
       ],
       child: const MyApp(),
     ),
