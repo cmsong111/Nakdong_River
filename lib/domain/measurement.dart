@@ -1,36 +1,47 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:nakdong_river/domain/position.dart';
 
 /// 측정 데이터 모델
 class Measurement {
-  final Position position;
-  final String depth;
-  final Timestamp time;
-  final num salinity;
-  final num temperature;
+  final Timestamp date;
+  final num depth;
+  final String location;
+  final String locationCode;
+  final double salinity;
+  final double temperature;
 
-  const Measurement({
+  Measurement({
+    required this.date,
     required this.depth,
-    required this.time,
-    required this.position,
+    required this.location,
+    required this.locationCode,
     required this.salinity,
     required this.temperature,
   });
 
-  /// FireStore에서 받아온 데이터를 Measurement로 변환한다.
-  static Measurement fromFireStore(
-      Map<String, dynamic> json, Position position, String depth) {
+  factory Measurement.fromMap(Map<String, dynamic> map) {
     return Measurement(
-      depth: depth,
-      position: position,
-      time: json['msmtTm'],
-      salinity: json['saln'],
-      temperature: json['wtep'],
+      date: map['mesure_date'],
+      depth: map['mesure_depths'],
+      location: map['mesure_location'],
+      locationCode: map['mesure_location_code'],
+      salinity: map['mesure_salinity'],
+      temperature: map['mesure_temperature'],
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'mesure_date': date,
+      'mesure_depths': depth,
+      'mesure_location': location,
+      'mesure_location_code': locationCode,
+      'mesure_salinity': salinity,
+      'mesure_temperature': temperature,
+    };
   }
 
   @override
   String toString() {
-    return 'Measurement{position: ${position.name}, depth: $depth, time: ${time.toDate().toString()}, salinity: $salinity, temperature: $temperature}';
+    return 'Measurement{date: $date, depth: $depth, location: $location, locationCode: $locationCode, salinity: $salinity, temperature: $temperature}';
   }
 }

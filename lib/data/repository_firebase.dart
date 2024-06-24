@@ -1,81 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:nakdong_river/domain/measurement.dart';
 import 'package:nakdong_river/domain/position.dart';
-import 'package:nakdong_river/domain/repository.dart';
+import 'package:nakdong_river/domain/measurement_repository.dart';
 
-class RepositoryFirebaseImpl extends Repository {
+class RepositoryFirebaseImpl extends MeasurementRepository {
   static FirebaseFirestore instance = FirebaseFirestore.instance;
 
   @override
-  Future<List<String>> getDepths(Position position) async {
-    var response = await instance.collection(position.code).get();
-    return response.docs.map((e) => e.id).toList();
-  }
-
-  @override
-  Future<List<Measurement>> getRecentData(
-      Position position, String depth) async {
-    final today = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(today);
+  Future<List<Measurement>> getRecentData(Position position) async {
     List<Measurement> dateList = [];
 
     var response = await instance
-        .collection(position.code)
-        .doc(depth)
-        .collection(formattedDate)
-        .orderBy('msmtTm', descending: true)
+        .collectionGroup("data")
+        .where("mesure_location_code", isEqualTo: position.code)
+        .where("mesure_salinity", isNotEqualTo: 0)
+        .orderBy("mesure_date", descending: true)
         .limit(10)
         .get();
 
     for (final doc in response.docs) {
-      dateList.add(Measurement.fromFireStore(doc.data(), position, depth));
+      dateList.add(Measurement.fromMap(doc.data()));
     }
 
-    if (response.docs.length < 10) {
-      formattedDate = DateFormat('yyyy-MM-dd')
-          .format(today.subtract(const Duration(days: 1)));
-      response = await instance
-          .collection(position.code)
-          .doc(depth)
-          .collection(formattedDate)
-          .orderBy('msmtTm', descending: true)
-          .limit(10 - response.docs.length)
-          .get();
-
-      for (final doc in response.docs) {
-        dateList.add(Measurement.fromFireStore(doc.data(), position, depth));
-      }
-    }
     return dateList;
-  }
-
-  @override
-  Future<Measurement> getRecentDataOne(Position position, String depth) async {
-    final today = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(today);
-
-    var response = await instance
-        .collection(position.code)
-        .doc(depth)
-        .collection(formattedDate)
-        .orderBy('msmtTm', descending: true)
-        .limit(1)
-        .get();
-
-    if (response.docs.isEmpty) {
-      formattedDate = DateFormat('yyyy-MM-dd')
-          .format(today.subtract(const Duration(days: 1)));
-      response = await instance
-          .collection(position.code)
-          .doc(depth)
-          .collection(formattedDate)
-          .orderBy('msmtTm', descending: true)
-          .limit(1)
-          .get();
-    }
-
-    return Measurement.fromFireStore(
-        response.docs.first.data(), position, depth);
   }
 }

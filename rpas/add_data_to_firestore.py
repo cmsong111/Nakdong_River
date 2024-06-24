@@ -31,13 +31,11 @@ sDate = start.strftime("%Y%m%d")
 
 # 계측시간 HHMM (ex: 0000)
 sTime = start.strftime("%H%M")
+if start.date() != now.date():
+    sTime = "0000"
 
 # 계측 종료 일자 HHMM (ex: 1000, max:2400)
 eTime = now.strftime("%H%M")
-
-# 일자가 다른 경우 API 호출이 불가능하므로 now를 2400으로 변경
-if now.date() != start.date():
-    eTime = "2400"
 
 # 염분 수질관측소 코드
 wtqltObsrvtCd = {
@@ -65,54 +63,56 @@ pageNo = 1
 _type = "json"
 
 
-def upload_data(item: dict):
+def str_to_float(s: str) -> float:
+    """문자열을 실수로 변환하는 함수"""
+    return float(s.replace(',', ''))
+
+
+def upload_data_to_firestore(item: dict):
     """데이터를 파이어베이스에 업로드하는 함수"""
-    try:
-        # 필요한 데이터만 추출
-        kst = pytz.timezone('Asia/Seoul')
-        msmtTm = datetime.datetime.strptime(
-            str(item['msmtTm']), '%Y%m%d%H%M')
-        doc_id_depth = str(item['altdDpwt'])
-        mesure_date = msmtTm.strftime('%Y-%m-%d')
-        mesure_time = msmtTm.strftime('%H:%M')
-        item['msmtTm'] = datetime.datetime.strptime(
-            str(item['msmtTm']), '%Y%m%d%H%M')
-        item['msmtTm'] = kst.localize(msmtTm)
 
-        # 필요없는 데이터 삭제
-        del item['mesureDpwt']
-        del item['altdDpwt']
-        del item['ec']
-        del item['wtqltObsrvtCd']
-        del item['obsrvtNm']
+    # 측정 위치
+    mesure_location: str = item['obsrvtNm']
+    mesure_location_code: str = item['wtqltObsrvtCd']
 
-        # 수치 데이터 형변환(숫자 -> 문자 (,제거) -> 숫자)
-        if type(item['saln']) == str:
-            item['saln'] = item['saln'].replace(',', '')
-        item['saln'] = float(item['saln'])
+    # 측정 시간(계측일자 + 계측시간, KST)
+    mesure_date: datetime = pytz.timezone(
+        'Asia/Seoul').localize(datetime.datetime.strptime(str(item['msmtTm']), '%Y%m%d%H%M'))
 
-        if type(item['wtep']) == str:
-            item['wtep'] = item['wtep'].replace(',', '')
-        item['wtep'] = float(item['wtep'])
+    # 측정 수심)
+    mesure_depths: float = item['altdDpwt']
+    if type(mesure_depths) == str:
+        mesure_depths: float = str_to_float(mesure_depths)
 
-        # 파이어베이스 Empty Collection 생성(검사가 안되는 문제 해결)
-        if db.collection(wtqltObsrvtCd[key]).document(doc_id_depth).get().exists is False:
-            db.collection(wtqltObsrvtCd[key]).document(
-                doc_id_depth).set({})
+    # 측정 염분
+    mesure_salinity: float = item['saln']
+    if type(mesure_salinity) == str:
+        mesure_salinity: float = str_to_float(mesure_salinity)
 
-        # 파이어베이스 데이터 업로드
-        db.collection(wtqltObsrvtCd[key]).document(
-            doc_id_depth).collection(mesure_date).document(mesure_time).set(item)
+    # 측정 수온
+    mesure_temperature: float = item['wtep']
+    if type(mesure_temperature) == str:
+        mesure_temperature: float = str_to_float(mesure_temperature)
 
-    except Exception as e:
-        print("Error: ", e)
+    # 파이어베이스 DB 초기화(염분 수질관측소 코드별로)(염분 수질관측소 코드가 없는 경우 생성)
+    point_collection = db.collection("data")
+
+    # 파이어베이스 데이터 업로드
+    point_collection.add({
+        'mesure_date': mesure_date,
+        'mesure_location': mesure_location,
+        'mesure_location_code': mesure_location_code,
+        'mesure_depths': mesure_depths,
+        'mesure_salinity': mesure_salinity,
+        'mesure_temperature': mesure_temperature
+    })
 
 
 # 염분 수질관측소 코드별로 반복문 실행
 for key in wtqltObsrvtCd:
 
+    # 파라미터 설정
     print(key, wtqltObsrvtCd[key])
-
     parameters = {
         'serviceKey': SERVICE_KEY,
         'sDate': sDate,
@@ -123,42 +123,37 @@ for key in wtqltObsrvtCd:
         'pageNo': pageNo,
         '_type': _type
     }
-
     print("parameters: ", parameters)
 
+    # API 호출
     count = 1
     while True:
         try:
             response = requests.get(url=END_POINT, params=parameters)
-            print("First Response Code: ", response.status_code)
-
+            print("Response Code: ", response.status_code)
         except Exception as e:
+            print("Error occurred. Retry Count: ", count)
             print("Error: ", e)
-            break
 
         if response.status_code == 200:
-            response = json.loads(response.text)
-
-            print("Response:", response['response']['header'])
-            print("data Length: ", response['response']['body']['totalCount'])
-
-            if response['response']['body']['totalCount'] == 0:
-                print("No data")
-            elif response['response']['body']['totalCount'] == 1:
-                print("One data")
-                upload_data(response['response']['body']['items']['item'])
-            else:
-                print("Many data")
-                for data in response['response']['body']['items']['item']:
-                    upload_data(data)
-
-            print("Data Upload Success at", wtqltObsrvtCd[key], "\n\n")
             break
 
-        print("Error occurred. Retry Count: ", count)
-        count += 1
         time.sleep(1)
 
-        if count > 100:
-            print("Retry Count Over 100")
-            break
+    # API 응답 데이터 처리
+    response = json.loads(response.text)
+
+    print("Response:", response['response']['header'])
+    print("data Length: ", response['response']['body']['totalCount'])
+
+    if response['response']['body']['totalCount'] == 0:
+        print("No data")
+    elif response['response']['body']['totalCount'] == 1:
+        print("One data")
+        upload_data_to_firestore(response['response']['body']['items']['item'])
+    else:
+        print("Many data")
+        for data in response['response']['body']['items']['item']:
+            upload_data_to_firestore(data)
+
+    print("Data Upload Success at", wtqltObsrvtCd[key], "\n\n")

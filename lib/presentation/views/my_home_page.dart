@@ -57,25 +57,15 @@ class MyHomePage extends StatelessWidget {
         ),
         child: ListView(
           children: [
-            Slider(
-              value: context
-                  .watch<PositionProvider>()
-                  .currentSliderValue
-                  .toDouble(),
-              max: context.watch<PositionProvider>().depthsLength - 1,
-              divisions: context.watch<PositionProvider>().depthsLength,
-              label: context.watch<PositionProvider>().currnetDepthLabel,
-              onChanged: (double value) {
-                context.read<PositionProvider>().setCurrentSliderValue(value);
-              },
-            ),
             Column(
               children: [
                 const SizedBox(
                   height: 150,
                 ),
                 Text(
-                  "${context.watch<PositionProvider>().measurements.temperature}°C",
+                  context.watch<PositionProvider>().measurement == null
+                      ? "수온 정보 없음"
+                      : "${context.watch<PositionProvider>().measurement!.temperature.roundToDouble()}°C",
                   style: const TextStyle(
                     fontSize: 50,
                     color: Colors.white,
@@ -89,21 +79,25 @@ class MyHomePage extends StatelessWidget {
                       BoxDecoration(border: Border.all(color: Colors.white)),
                 ),
                 Text(
-                  "염분도:${context.watch<PositionProvider>().measurements.salinity}psu",
+                  context.watch<PositionProvider>().measurement == null
+                      ? "염도 정보 없음"
+                      : "염분도:${context.watch<PositionProvider>().measurement!.salinity.roundToDouble()}psu",
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  "측정 위치:${context.watch<PositionProvider>().measurements.position.name}",
+                  "측정 위치:${context.watch<PositionProvider>().position.name}",
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  "측정 시간:${context.watch<PositionProvider>().measurements.time.toDate()}",
+                  context.watch<PositionProvider>().measurement == null
+                      ? "측정 시간 없음"
+                      : "측정 시간:${context.watch<PositionProvider>().measurement!.date.toDate()}",
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
