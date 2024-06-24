@@ -33,6 +33,7 @@ jobs:
       - name: Add data to Firestore
         run: |
           python ./rpas/add_data_to_firestore.py
+          python ./rpas/add_data_to_firestore_v2.py
         env:
           END_POINT: ${{ secrets.END_POINT }}
           SERVICE_KEY: ${{ secrets.SERVICE_KEY }}
