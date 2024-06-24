@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nakdong_river/presentation/providers/package_info_provider.dart';
+import 'package:nakdong_river/presentation/views/notice_list.dart';
 import 'package:nakdong_river/presentation/views/oss_licenses_page.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,7 @@ class MyDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  "Copyright ⓒ 2023 2024 낙동",
+                  "Copyright ⓒ 2022-2024 낙동",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
@@ -59,7 +60,9 @@ class MyDrawer extends StatelessWidget {
           ListTile(
             title: const Text('공지사항'),
             onTap: () {
-              _sendEmail();
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return const NoticeListPage();
+              }));
             },
           ),
           ListTile(
@@ -69,7 +72,7 @@ class MyDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('Open source license'),
+            title: const Text('오픈소스 라이센스'),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return const OssLicensesPage();
