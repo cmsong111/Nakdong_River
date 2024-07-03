@@ -135,7 +135,7 @@ for key in wtqltObsrvtCd:
             print("Error occurred. Retry Count: ", count)
             print("Error: ", e)
 
-        if response.status_code == 200:
+        if response.status_code == 200 and response.text.startswith("{"):
             break
 
         time.sleep(1)
